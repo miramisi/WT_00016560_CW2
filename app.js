@@ -1,23 +1,23 @@
-const express = require('express');
+// express web app instance
+const express = require('express')
+
+// parse request body to json
+const body_parser = require('body-parser')
+
+// for File IO
+const path = require('path')
+
+// make mock database (raw .json file) available globally in app
+global.mock_db = path.join(__dirname, './data/mock_db.json');
+
 const app = express();
-const bodyParser = require('body-parser');
-const routes = require('./routes');
 
-// Middleware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.get('/', function(req, res){
+    return res.json({
+       message: 'hello world'
+    })
 
-// Routes
-app.use('/', routes);
+})
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Internal Server Error');
-});
-
-// Start the server
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+const port = 3000;
+app.listen(port, () => console.log(`Server running on port ${port}`));
